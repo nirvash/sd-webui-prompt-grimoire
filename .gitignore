@@ -2,6 +2,9 @@
 __pycache__/
 *.py[cod]
 
+# 設定ファイル
+grimoire_settings.json
+
 # 環境設定関連
 .env
 .venv/
