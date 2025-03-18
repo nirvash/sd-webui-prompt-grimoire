@@ -1,0 +1,24 @@
+# バイトコードファイル
+__pycache__/
+*.py[cod]
+
+# 環境設定関連
+.env
+.venv/
+venv/
+Pipfile
+Pipfile.lock
+poetry.lock
+
+# 開発環境
+.idea/
+.vscode/
+.mypy_cache/
+.pytest_cache/
+
+# Jupyter Notebook チェックポイント
+.ipynb_checkpoints/
+
+# Mac や Windows の余計なファイル
+.DS_Store
+Thumbs.db
