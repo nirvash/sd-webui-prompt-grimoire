@@ -42,15 +42,27 @@ Web UIの設定タブから以下の設定を変更できます：
 
 ### プロンプトの設定
 
-プロンプトとリクエストIDを送信して画像生成を行います。前回と異なるrequest_idが送信された場合のみ、新しい画像が生成されます。
+プロンプトとリクエストID、アクションを送信して画像生成を行います。前回と異なるrequest_idが送信された場合のみ、新しい画像が生成されます。
 
-- **エンドポイント**: `/grimoire/api/set_prompt`
+使用可能なアクション：
+- `none`: アクションを実行せず、プロンプトの設定のみを行います
+- `generate`: 通常の画像生成を1回実行します
+- `generate_forever`: 連続生成を開始します
+- `cancel_forever`: 実行中の連続生成を停止します
+
+`set_prompt`フラグ（デフォルト: true）で、プロンプトを設定するかどうかを制御できます：
+- `true`: プロンプトを設定してからアクションを実行
+- `false`: プロンプトを変更せずにアクションを実行
+
+- **エンドポイント**: `/grimoire/set_prompt`
 - **メソッド**: POST
 - **リクエストボディ**:
 ```json
 {
     "prompt": "1girl, dancing, cherry blossom, spring season, masterpiece, best quality",
-    "request_id": 123
+    "request_id": 123,
+    "action": "none",
+    "set_prompt": true
 }
 ```
 - **レスポンス**:
@@ -58,7 +70,9 @@ Web UIの設定タブから以下の設定を変更できます：
 {
     "status": "ok",
     "prompt": "",
-    "request_id": 123
+    "request_id": 123,
+    "action": "none",
+    "set_prompt": true
 }
 ```
 
@@ -68,7 +82,7 @@ Web UIの設定タブから以下の設定を変更できます：
 
 設定された最新のプロンプトとリクエストIDを取得します。
 
-- **エンドポイント**: `/grimoire/api/get_prompt`
+- **エンドポイント**: `/grimoire/get_prompt`
 - **メソッド**: GET
 - **レスポンス**:
 ```json
@@ -85,15 +99,15 @@ Web UIの設定タブから以下の設定を変更できます：
 import requests
 
 # プロンプトを送信して画像生成（新しいrequest_idを使用）
-response = requests.post("http://localhost:7860/grimoire/api/set_prompt", 
+response = requests.post("http://localhost:7860/grimoire/set_prompt", 
     json={"prompt": "1girl, dancing, cherry blossom, spring season, masterpiece, best quality", "request_id": 1})
 
 # 同じプロンプトでも異なるrequest_idを使用すると新しい画像が生成される
-response = requests.post("http://localhost:7860/grimoire/api/set_prompt", 
+response = requests.post("http://localhost:7860/grimoire/set_prompt", 
     json={"prompt": "1girl, dancing, cherry blossom, spring season, masterpiece, best quality", "request_id": 2})
 
 # 設定されているプロンプトの確認
-response = requests.get("http://localhost:7860/grimoire/api/get_prompt")
+response = requests.get("http://localhost:7860/grimoire/get_prompt")
 current_prompt = response.json()["prompt"]
 ```
 
@@ -145,15 +159,27 @@ You can modify the following settings from the Web UI settings tab:
 
 ### Set Prompt
 
-Send a prompt and request ID to generate an image. A new image will only be generated when a different request_id is sent.
+Send a prompt, request ID, and action to generate an image. A new image will only be generated when a different request_id is sent.
 
-- **Endpoint**: `/grimoire/api/set_prompt`
+Available actions:
+- `none`: Only sets the prompt without executing any action
+- `generate`: Executes a single image generation
+- `generate_forever`: Starts continuous image generation
+- `cancel_forever`: Stops the ongoing continuous generation
+
+The `set_prompt` flag (default: true) controls whether to update the prompt:
+- `true`: Set the prompt before executing the action
+- `false`: Execute the action without changing the current prompt
+
+- **Endpoint**: `/grimoire/set_prompt`
 - **Method**: POST
 - **Request Body**:
 ```json
 {
     "prompt": "1girl, dancing, cherry blossom, spring season, masterpiece, best quality",
-    "request_id": 123
+    "request_id": 123,
+    "action": "none",
+    "set_prompt": true
 }
 ```
 - **Response**:
@@ -171,7 +197,7 @@ Send a prompt and request ID to generate an image. A new image will only be gene
 
 Retrieve the latest prompt and request ID.
 
-- **Endpoint**: `/grimoire/api/get_prompt`
+- **Endpoint**: `/grimoire/get_prompt`
 - **Method**: GET
 - **Response**:
 ```json
@@ -188,13 +214,13 @@ Retrieve the latest prompt and request ID.
 import requests
 
 # Send prompt to generate image (using new request_id)
-response = requests.post("http://localhost:7860/grimoire/api/set_prompt", 
+response = requests.post("http://localhost:7860/grimoire/set_prompt", 
     json={"prompt": "1girl, dancing, cherry blossom, spring season, masterpiece, best quality", "request_id": 1})
 
 # Same prompt with different request_id generates a new image
-response = requests.post("http://localhost:7860/grimoire/api/set_prompt", 
+response = requests.post("http://localhost:7860/grimoire/set_prompt", 
     json={"prompt": "1girl, dancing, cherry blossom, spring season, masterpiece, best quality", "request_id": 2})
 
 # Check current prompt
-response = requests.get("http://localhost:7860/grimoire/api/get_prompt")
+response = requests.get("http://localhost:7860/grimoire/get_prompt")
 current_prompt = response.json()["prompt"]
