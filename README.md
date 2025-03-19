@@ -20,19 +20,7 @@ Stable Diffusion Web UIに外部からプロンプトを送信して画像生成
 5. 「インストール」をクリック
 6. Web UIを再起動
 
-## 設定
-
-Web UIの設定タブから以下の設定を変更できます：
-
-### Grimoire 設定
-
-- **Polling interval (秒)**: プロンプトの確認間隔を設定します（0.1-5.0秒、デフォルト: 0.5秒）
-  * スライダーで0.1秒刻みに調整可能
-  * 値が小さいほど頻繁にプロンプトを確認します
-  * サーバーの負荷に応じて調整してください
-  * 設定値は自動的に保存され、Web UI再起動後も維持されます
-
-## Illustraとの連携
+## Illustraとの連携 (開発中)
 
 1. [Illustra](https://github.com/nirvash/Illustra)をインストール
 2. IllustraのWeb UI設定でこの拡張機能のAPIエンドポイントを設定
@@ -137,18 +125,6 @@ When used with [Illustra](https://github.com/nirvash/Illustra), you can easily g
 5. Click "Install"
 6. Restart Web UI
 
-## Settings
-
-You can modify the following settings from the Web UI settings tab:
-
-### Grimoire Settings
-
-- **Polling interval (seconds)**: Set the interval for checking prompts (0.1-5.0 seconds, default: 0.5 seconds)
-  * Adjust in 0.1 second increments using the slider
-  * Lower values mean more frequent prompt checks
-  * Adjust according to server load
-  * Settings are automatically saved and persist after Web UI restart
-
 ## Integration with Illustra
 
 1. Install [Illustra](https://github.com/nirvash/Illustra)
@@ -187,7 +163,9 @@ The `set_prompt` flag (default: true) controls whether to update the prompt:
 {
     "status": "ok",
     "prompt": "",
-    "request_id": 123
+    "request_id": 123,
+    "action": "none",
+    "set_prompt": true
 }
 ```
 
@@ -204,7 +182,9 @@ Retrieve the latest prompt and request ID.
 {
     "status": "ok",
     "prompt": "",
-    "request_id": 123
+    "request_id": 123,
+    "action": "none",
+    "set_prompt": true
 }
 ```
 
